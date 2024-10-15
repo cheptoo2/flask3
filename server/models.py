@@ -21,7 +21,7 @@ class Restaurant(db.Model, SerializerMixin):
     # add relationship
     restaurant_pizzas = db.relationship('RestaurantPizza', back_populates='restaurant', cascade='all, delete-orphan')
      # Relationship to pizza through RestaurantPizza
-    pizzas =db.relationship('Pizza', secondary='restaurant_pizzas', back_populates='restaurants',overlaps="restaurant_pizzas,pizzas")
+    pizzas =db.relationship('Pizza', secondary='restaurant_pizzas', back_populates='restaurants')
 
     # add serialization rules
     serialize_rules = ('-restaurant_pizzas.restaurant', '-pizzas.restaurants')
@@ -38,7 +38,7 @@ class Pizza(db.Model, SerializerMixin):
 
     # add relationship
     restaurant_pizzas =db.relationship('RestaurantPizza', back_populates='pizza', cascade="all, delete-orphan")
-    restaurants = db.relationship('Restaurant', secondary='restaurant_pizzas', back_populates='pizzas',overlaps="restaurant_pizzas,restaurants")
+    restaurants = db.relationship('Restaurant', secondary='restaurant_pizzas', back_populates='pizzas')
     # add serialization rules
     serialize_rules = ('-restaurant_pizzas.pizza', '-restaurants.pizzas')
     def __repr__(self):
